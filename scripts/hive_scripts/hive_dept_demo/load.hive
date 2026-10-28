@@ -1,0 +1,9 @@
+SET hive.exec.dynamic.partition = true;
+SET hive.exec.dynamic.partition.mode = nonstrict;
+
+
+
+
+load data local inpath '/tmp/dept_loc.txt' into table departments;
+
+insert overwrite table dept_loc partition(dpt_name,location) select department_id,name,salary,dpt_name,location from departments;

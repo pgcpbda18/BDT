@@ -1,0 +1,1 @@
+LOAD local inpath "load data local inpath '/hive_scripts/partition_test.txt' into table normal_table;"

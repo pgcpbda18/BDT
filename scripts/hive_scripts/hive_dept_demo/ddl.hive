@@ -1,0 +1,19 @@
+
+
+SET hive.exec.dynamic.partition = true;
+SET hive.exec.dynamic.partition.mode = nonstrict;
+
+
+drop table if exists departments;
+create table departments(department_id string ,dpt_name string ,name string ,salary string ,location string) ROW FORMAT DELIMITED FIELDS TERMINATED BY ','; 
+
+
+drop table if exists dept_loc; 
+CREATE TABLE IF NOT EXISTS dept_loc(
+    department_id string,
+    name STRING,
+    salary string
+) PARTITIONED BY (dpt_name STRING, location STRING)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ',';
+
+

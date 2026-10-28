@@ -1,0 +1,25 @@
+
+
+
+ 
+
+create table normal_table(id string, name string, country string) row format delimited fields terminated by '\t';
+
+
+load data local inpath '/hive/warehouse' into table normal_table;
+
+
+FOR DYANAMIC PARTITION------------------------------
+SET hive.exec.dynamic.partition = true;          
+SET hive.exec.dynamic.partition.mode = nonstrict;
+
+
+
+> create table dynamic_table(
+	id string,
+	name string)
+	partitioned by (country string)
+	row format delimited
+	fields terminated by '\t';
+
+> insert overwrite table dynamic_table partition(country) select id,name,country from normal_table; 

@@ -1,0 +1,25 @@
+hdfs dfs -test -f /user/hive/warehouse/partition_test.txt
+if [ $? -ne 0 ];then
+hdfs dfs -put /tmp/partition_test.txt /user/hive/warehouse/partition_test.txt
+fi 
+
+create table normal_table(id string, name string, country string) row format delimited fields terminated by '\t';
+
+
+load data local inpath '/hive_scripts/partition_test.txt' into table normal_table;
+
+
+FOR DYANAMIC PARTITION------------------------------
+SET hive.exec.dynamic.partition = true;          
+SET hive.exec.dynamic.partition.mode = nonstrict;
+
+
+
+> create table dynamic_table(
+	id string,
+	name string)
+	partitioned by (country string)
+	row format delimited
+	fields terminated by '\t';
+
+> insert overwrite table dynamic_table partition(country) select id,name,country from normal_table; 
